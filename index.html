@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0c" />
+  <title>黑石领 · 领主模拟原型</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <header class="realm-header">
+      <div class="castle-silhouette" aria-hidden="true"></div>
+      <div class="header-topline">
+        <div>
+          <div class="realm-kicker">THE BLACKSTONE DOMAIN</div>
+          <h1 id="pageTitle">黑石领</h1>
+        </div>
+        <div class="season-plaque"><span id="yearLabel">第6年</span><b>·</b><span id="seasonLabel">秋季</span><span class="leaf">◆</span></div>
+      </div>
+      <div class="stat-ribbon" aria-label="领地核心数据">
+        <div class="stat"><span class="stat-icon">♟</span><span><small>人口</small><strong id="statPopulation">1284</strong></span></div>
+        <div class="stat"><span class="stat-icon gold">◉</span><span><small>国库</small><strong class="gold" id="statTreasury">2870</strong></span></div>
+        <div class="stat"><span class="stat-icon green">♜</span><span><small>粮食</small><strong class="green" id="statFood">74%</strong></span></div>
+        <div class="stat"><span class="stat-icon blue">⚖</span><span><small>秩序</small><strong class="blue" id="statOrder">68</strong></span></div>
+        <div class="stat"><span class="stat-icon purple">♛</span><span><small>威望</small><strong class="purple" id="statPrestige">62</strong></span></div>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section class="page active" data-page="hall" aria-labelledby="hallHeading">
+        <div class="section-heading" id="hallHeading"><span>领主大厅</span><small>必须由你裁决的事务</small></div>
+
+        <article class="lord-event parchment" id="eventCard" tabindex="0" aria-live="polite">
+          <div class="wax-seal" id="eventSeal">⚖</div>
+          <div class="event-eyebrow" id="eventType">商会请愿</div>
+          <h2 id="eventTitle">南部商路连续遭袭</h2>
+          <p id="eventBody">南部商路连续三周遭到豺狼人袭击。商会希望领主发布 300 金币的清剿悬赏。</p>
+          <div class="event-effects" id="eventEffects"></div>
+          <div class="swipe-hint">可左右滑动，也可直接选择</div>
+          <div class="event-actions">
+            <button class="choice secondary" id="choiceLeft" type="button">暂不处理</button>
+            <button class="choice primary" id="choiceRight" type="button">发布悬赏</button>
+          </div>
+        </article>
+
+        <div class="time-toolbar surface">
+          <div>
+            <small>世界时间</small>
+            <strong id="worldClock">秋季 18日 · 09:20</strong>
+          </div>
+          <div class="speed-controls" role="group" aria-label="时间速度">
+            <button type="button" data-speed="0" title="暂停">Ⅱ</button>
+            <button type="button" data-speed="1" class="active">1×</button>
+            <button type="button" data-speed="4">4×</button>
+            <button type="button" id="advanceDay">+1日</button>
+          </div>
+        </div>
+
+        <section class="world-feed surface" aria-labelledby="worldFeedTitle">
+          <div class="panel-title-row">
+            <h3 id="worldFeedTitle">领地正在发生</h3>
+            <span class="live-dot"><i></i> LIVE</span>
+          </div>
+          <div class="feed-list" id="feedList" aria-live="polite"></div>
+        </section>
+
+        <section class="compact-grid">
+          <button class="summary-card" type="button" data-jump="quests">
+            <span class="summary-icon">📜</span><span><small>进行中的悬赏</small><strong id="hallQuestCount">3 项</strong></span><b>›</b>
+          </button>
+          <button class="summary-card" type="button" data-jump="territory">
+            <span class="summary-icon">🏪</span><span><small>今日商业税</small><strong id="hallTaxToday">+42 金币</strong></span><b>›</b>
+          </button>
+        </section>
+      </section>
+
+      <section class="page" data-page="quests" aria-labelledby="questsHeading">
+        <div class="section-heading" id="questsHeading"><span>悬赏大厅</span><small>发布与追踪领主任務</small></div>
+        <div class="quest-tabs surface" role="tablist" aria-label="悬赏筛选">
+          <button class="active" type="button" data-filter="all">全部</button>
+          <button type="button" data-filter="combat">⚔ 战斗</button>
+          <button type="button" data-filter="explore">✦ 探索</button>
+          <button type="button" data-filter="investigate">⌕ 调查</button>
+          <button type="button" data-filter="build">⚒ 建设</button>
+        </div>
+        <div id="questList" class="quest-list"></div>
+        <button class="large-action" type="button" id="openQuestModal">＋ 发布新悬赏</button>
+      </section>
+
+      <section class="page" data-page="territory" aria-labelledby="territoryHeading">
+        <div class="section-heading" id="territoryHeading"><span>黑石镇</span><small>领地总览</small></div>
+        <section class="town-metrics surface">
+          <div><small>今日税收</small><strong class="green" id="territoryTax">+42</strong></div>
+          <div><small>治安</small><strong class="blue" id="territoryOrder">68</strong></div>
+          <div><small>商业</small><strong class="purple" id="territoryCommerce">71</strong></div>
+          <div><small>粮食储备</small><strong class="green" id="territoryFood">74%</strong></div>
+        </section>
+
+        <section class="parchment commerce-panel">
+          <div class="parchment-title">商业街</div>
+          <div id="shopList" class="shop-list"></div>
+        </section>
+
+        <section class="surface tax-policy">
+          <div class="panel-title-row"><h3>税务政策</h3><span class="muted">即时影响 NPC 消费倾向</span></div>
+          <label>交易税 <strong id="tradeTaxLabel">6%</strong><input id="tradeTax" type="range" min="0" max="20" value="6" /></label>
+          <label>酒馆税 <strong id="tavernTaxLabel">8%</strong><input id="tavernTax" type="range" min="0" max="25" value="8" /></label>
+          <p class="policy-note" id="taxHint">当前税率温和，商人和居民普遍能够接受。</p>
+        </section>
+
+        <section class="surface world-feed">
+          <div class="panel-title-row"><h3>城镇动态</h3><span class="live-dot"><i></i> LIVE</span></div>
+          <div class="feed-list" id="townFeed"></div>
+        </section>
+      </section>
+
+      <section class="page" data-page="people" aria-labelledby="peopleHeading">
+        <div class="section-heading" id="peopleHeading"><span>人物档案</span><small>重要居民与冒险者</small></div>
+        <div class="npc-roster" id="npcRoster" aria-label="人物列表"></div>
+        <article class="character-sheet parchment">
+          <div class="character-top">
+            <div class="portrait-frame" id="portraitFrame"><img id="npcPortrait" src="assets/darien_portrait.webp" alt="达里安·霍克" /></div>
+            <div class="identity">
+              <h2 id="npcName">达里安·霍克</h2>
+              <div class="subline" id="npcMeta">人类 · 战士 · 32岁</div>
+              <dl class="identity-list">
+                <div><dt>所属</dt><dd id="npcGroup">银狐冒险团</dd></div>
+                <div><dt>当前</dt><dd id="npcCurrent">在黑鹿酒馆喝酒</dd></div>
+                <div><dt>金币</dt><dd id="npcGold">146</dd></div>
+                <div><dt>健康</dt><dd id="npcHealth" class="green">良好</dd></div>
+                <div><dt>心情</dt><dd id="npcMood" class="red">烦躁</dd></div>
+              </dl>
+            </div>
+          </div>
+          <div class="attribute-row" id="npcAttributes"></div>
+        </article>
+        <div class="people-grid">
+          <section class="parchment mini-panel"><h3>最近想法</h3><div id="npcThoughts"></div></section>
+          <section class="parchment mini-panel"><h3>关系</h3><div id="npcRelations"></div></section>
+          <section class="parchment mini-panel"><h3>重要记忆</h3><div id="npcMemories"></div></section>
+          <section class="parchment mini-panel"><h3>近期行动</h3><div id="npcActions"></div></section>
+        </div>
+      </section>
+
+      <section class="page" data-page="chronicle" aria-labelledby="chronicleHeading">
+        <div class="section-heading" id="chronicleHeading"><span>黑石领纪事</span><small>这个世界自己写下的历史</small></div>
+        <section class="chronicle-intro parchment">
+          <div class="chronicle-mark">✦</div>
+          <h2>第六年 · 秋</h2>
+          <p>黑石镇已经从边陲村落成长为区域贸易节点。冒险者、商人和流民不断来到这里，而每个选择都在留下历史。</p>
+        </section>
+        <div class="timeline" id="timeline"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主导航">
+      <button class="active" type="button" data-page-target="hall"><span>♜</span><b>大厅</b></button>
+      <button type="button" data-page-target="quests"><span>📜</span><b>悬赏</b></button>
+      <button type="button" data-page-target="territory"><span>♞</span><b>领地</b></button>
+      <button type="button" data-page-target="people"><span>♟</span><b>人物</b></button>
+      <button type="button" data-page-target="chronicle"><span>✧</span><b>纪事</b></button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="questModal" hidden>
+    <form class="modal parchment" id="questForm">
+      <div class="modal-head"><h2>发布新悬赏</h2><button type="button" id="closeQuestModal" aria-label="关闭">×</button></div>
+      <label>任务名称<input id="newQuestTitle" required maxlength="24" value="护送北境商队" /></label>
+      <label>类别<select id="newQuestType"><option value="combat">战斗</option><option value="explore">探索</option><option value="investigate">调查</option><option value="build">建设</option></select></label>
+      <div class="form-row"><label>奖励（金币）<input id="newQuestReward" type="number" min="10" max="5000" value="180" /></label><label>期限（天）<input id="newQuestDays" type="number" min="1" max="120" value="14" /></label></div>
+      <label>风险<select id="newQuestRisk"><option>低</option><option selected>中</option><option>中高</option><option>高</option></select></label>
+      <button class="large-action" type="submit">盖印并张贴悬赏</button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
