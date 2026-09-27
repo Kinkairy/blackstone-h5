@@ -37,3 +37,7 @@ artwork is stored in `assets/`.
 ## License
 
 Released under the MIT License. See [LICENSE](LICENSE).
+
+## Design documentation
+
+- [设计访谈记录 / Design Interview Log](docs/design-interview.md) — 持续记录逐轮问题、用户选择、补充与最终确认规则。
